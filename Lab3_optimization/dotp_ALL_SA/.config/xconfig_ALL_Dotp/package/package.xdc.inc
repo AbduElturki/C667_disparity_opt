@@ -1,0 +1,12 @@
+package.xdc
+package.xs
+package/xconfig_ALL_Dotp.sch
+package/.vers_g180
+package/.vers_r170
+package/.vers_b160
+package/.xdc-B06
+package/xconfig_ALL_Dotp.java
+package/xconfig_ALL_Dotp.class
+package/package_xconfig_ALL_Dotp.c
+package/package.defs.h
+package/xconfig_ALL_Dotp.ccs

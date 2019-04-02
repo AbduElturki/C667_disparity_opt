@@ -1,0 +1,35 @@
+	.global ddotp4h3
+
+ddotp4h3:	.cproc	ap, xp, cnt
+		.reg	a1h:a1l, x1h:x1l, a2h:a2l, x2h:x2l, dp1h:dp1l,b1h:b1l, y1h:y1l, b2h:b2l, y2h:y2l, dp2h:dp2l, dpSumh:dpSuml, tempSum, rsum
+
+		zero 	rsum
+		zero tempSum
+
+;If you change this loop to only load 64 bits at a time and use a single dotp4h,
+;then it takes about 130 cycles, but if you load 128 bits, and have two ddotp4h, then takes about 167 cycles
+loop:
+		lddw	*ap++, a1h:a1l
+		lddw	*xp++, x1h:x1l
+		lddw	*ap++, a2h:a2l
+		lddw	*xp++, x2h:x2l
+
+		lddw	*ap++, b1h:b1l
+		lddw	*xp++, y1h:y1l
+		lddw	*ap++, b2h:b2l
+		lddw	*xp++, y2h:y2l
+
+		ddotp4h	a1h:a1l:a2h:a2l, x1h:x1l:x2h:x2l, dp1h:dp1l
+		ddotp4h	b1h:b1l:b2h:b2l, y1h:y1l:y2h:y2l, dp2h:dp2l
+
+		dadd	dp1h:dp1l, dp2h:dp2l, dpSumh:dpSuml
+		add		dpSumh, tempSum, tempSum
+		add		dpSuml, rsum, rsum
+
+[cnt]	sub		cnt, 16, cnt
+[cnt]	b		loop
+
+		add tempSum, rsum, rsum
+
+		.return rsum
+		.endproc

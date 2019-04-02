@@ -1,0 +1,22 @@
+
+ 			.global dotpsa2
+
+dotpsa2	.cproc	ap, xp, cnt,z4:z3:z2:z1
+		.reg	a, x, prod, y,z
+
+		zero	y
+
+
+loop
+
+		ldh		*ap++, a
+		ldh		*xp++, x
+		mpy		a, x, prod
+		add 	prod, y, y
+		sub		cnt, 1, cnt
+ [cnt]	b  		loop
+
+; 		.return z4:z3:z2:z1
+
+	.return z4:z3:z2:z1
+ 		.endproc

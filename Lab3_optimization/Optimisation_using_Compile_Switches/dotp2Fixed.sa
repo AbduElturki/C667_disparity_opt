@@ -1,0 +1,22 @@
+
+			.global dotp2Fixed
+
+dotp2Fixed		.cproc pm, pn, count
+			.reg m, n, total, total2, sum, sum2
+
+			ZERO	total
+			ZERO	total2
+
+loop		LDDW	*pm++, A1:A0
+			LDDW	*pn++, B1:B0
+			DOTP2	A1, B1, sum
+			DOTP2	A0, B0, sum2
+			ADD		total, sum, total
+			ADD		total2, sum2, total2
+	[count]	SUB		count, 4, count
+	[count]	B		loop
+
+			ADD		total, total2, total
+
+			.return total
+			.endproc

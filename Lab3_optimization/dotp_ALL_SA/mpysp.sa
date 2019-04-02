@@ -1,0 +1,55 @@
+			.global       mpyspdot
+
+
+
+
+
+mpyspdot: .cproc ap, xp, cnt
+
+              .reg   ah:al, xh:xl, rsuml, rsumh,prodl, prodh,rsum
+
+
+
+              zero   prodl
+
+              zero   prodh
+
+              zero   rsuml
+
+              zero   rsumh
+
+              zero   rsum
+
+
+
+loop:
+
+
+
+              lddw          *ap++, ah:al
+
+              lddw          *xp++, xh:xl
+
+              mpysp         al, xl, prodl
+
+              mpysp         ah, xh, prodh
+
+              addsp         prodl, rsuml, rsuml
+
+              addsp         prodh, rsumh, rsumh
+
+[cnt]  sub           cnt, 2, cnt
+
+[cnt]  b             loop
+
+; Add final results outside the Loop
+
+              addsp rsuml, rsumh, rsum
+
+
+
+
+
+              .return rsum
+
+              .endproc

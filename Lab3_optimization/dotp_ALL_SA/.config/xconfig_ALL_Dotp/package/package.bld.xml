@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<!--  This file conforms to the DTD xdc/bld/build.dtd -->
+<package name="xconfig_ALL_Dotp" version="" producerId="undefined">
+    <units>
+    </units>
+    <sources>
+        <srcFile name="package/cfg/ALL_Dotp_pe66.c"/>
+    </sources>
+    <configscripts>
+        <srcFile name="H:/C66/All_book_Final_2016/Chapter_7_Software_Optimisation/Chapter_7_Code/dotp_ALL_SA/ALL_Dotp.cfg"/>
+    </configscripts>
+    <makefiles>
+        <srcFile name="package.mak" src="package.bld"/>
+        <srcFile name="package/package.xdc.dep" src="package.xdc"/>
+        <srcFile name="package/cfg/ALL_Dotp_pe66.mak" src="package.bld"/>
+        <srcFile name="package/cfg/ALL_Dotp_pe66.oe66.dep" src="package/cfg/ALL_Dotp_pe66.c"/>
+        <srcFile name="package/cfg/ALL_Dotp_pe66.dep" src="package/cfg/ALL_Dotp_pe66.cfg"/>
+        <srcFile name="package/cfg/ALL_Dotp.xe66.mak" src="package.bld"/>
+        <srcFile name="package/rel/xconfig_ALL_Dotp.tar.dep" src="package/rel/xconfig_ALL_Dotp.xdc.inc"/>
+    </makefiles>
+    <targets>
+        <target name="ti.targets.elf.C66"
+            version="ti.targets.elf.C66{1,0,8.1,2"
+            rawVersion="8.1.2"
+            platform="ti.platforms.simTCI6616"
+            isa="66"
+            suffix="e66"
+            rootDir="C:/ti/ti-cgt-c6000_8.1.2"
+            os="undefined"
+            rts="ti.targets.rts6000">
+            <model endian="little"
+                codeModel="undefined"
+                dataModel="undefined"/>
+        </target>
+    </targets>
+    <libraries>
+    </libraries>
+    <configurations>
+    <configuration name="ALL_Dotp"
+        pname="ALL_Dotp.pe66"
+        target="ti.targets.elf.C66"
+        platform="ti.platforms.evm6678"
+        profile="release"
+        isPartial="false"
+        xCfgScript="package/cfg/ALL_Dotp_pe66.cfg"
+        xCfgPrefix="package/cfg/ALL_Dotp_pe66"
+        cfgScript="H:/C66/All_book_Final_2016/Chapter_7_Software_Optimisation/Chapter_7_Code/dotp_ALL_SA/ALL_Dotp.cfg"
+        cfgArgs="null"
+        />
+    </configurations>
+    <executables>
+    <executable name="ALL_Dotp"
+        pname="ALL_Dotp.xe66"
+        target="ti.targets.elf.C66"
+        platform="ti.platforms.evm6678"
+        profile="release"
+        xCfgScript="package/cfg/ALL_Dotp_pe66.cfg"
+        xCfgPrefix="package/cfg/ALL_Dotp_pe66"
+        cfgScript="H:/C66/All_book_Final_2016/Chapter_7_Software_Optimisation/Chapter_7_Code/dotp_ALL_SA/ALL_Dotp.cfg"
+        cfgArgs="null"
+        />
+    </executables>
+    <tests>
+    <test exeName="ALL_Dotp.xe66"
+        args=""
+        groupName="ALL_Dotp.xe66"
+        refOutput="undefined"
+        refExitCode="0"
+        execArgs=""
+        />
+    </tests>
+    <releases relDir="package/rel/">
+    <release name="xconfig_ALL_Dotp"
+        pname="xconfig_ALL_Dotp.tar"
+        label="default"
+    >
+        <file name="package/package.bld.xml"/>
+        <file name="package/build.cfg"/>
+        <file name="package/package.xdc.inc"/>
+    </release>
+    </releases>
+    <repositories>
+    </repositories>
+</package>

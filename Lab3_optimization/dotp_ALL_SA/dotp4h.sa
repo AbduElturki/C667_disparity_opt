@@ -1,0 +1,20 @@
+	.global dotp4h
+
+dotp4h:	.cproc	ap, xp, cnt
+		.reg	a1h:a1l, x1h:x1l, dSum, rsum
+
+		zero 	rsum
+loop:
+
+		lddw	*ap++, a1h:a1l
+		lddw	*xp++, x1h:x1l
+
+		dotp4h	a1h:a1l, x1h:x1l, dSum
+
+		add		dSum, rsum, rsum
+
+[cnt]	sub		cnt, 4, cnt
+[cnt]	b		loop
+
+		.return rsum
+		.endproc

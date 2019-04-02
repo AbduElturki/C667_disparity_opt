@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<!--  This file conforms to the DTD xdc/bld/build.dtd -->
+<package name="xconfig_ConfigurationForAll" version="" producerId="undefined">
+    <units>
+    </units>
+    <sources>
+        <srcFile name="package/cfg/ConfigurationForAll_pe66.c"/>
+    </sources>
+    <configscripts>
+        <srcFile name="C:/2017/Final_book_2017/Naim_Dahnoun_Book_Final/Chapter_07_SYSBIOS_TI_RTOS/CLK_SWI_TASK_HWI/ConfigurationForAll.cfg"/>
+    </configscripts>
+    <makefiles>
+        <srcFile name="package.mak" src="package.bld"/>
+        <srcFile name="package/package.xdc.dep" src="package.xdc"/>
+        <srcFile name="package/cfg/ConfigurationForAll_pe66.mak" src="package.bld"/>
+        <srcFile name="package/cfg/ConfigurationForAll_pe66.oe66.dep" src="package/cfg/ConfigurationForAll_pe66.c"/>
+        <srcFile name="package/cfg/ConfigurationForAll_pe66.dep" src="package/cfg/ConfigurationForAll_pe66.cfg"/>
+        <srcFile name="package/cfg/ConfigurationForAll.xe66.mak" src="package.bld"/>
+        <srcFile name="package/rel/xconfig_ConfigurationForAll.tar.dep" src="package/rel/xconfig_ConfigurationForAll.xdc.inc"/>
+    </makefiles>
+    <targets>
+        <target name="ti.targets.elf.C66"
+            version="ti.targets.elf.C66{1,0,7.4,14"
+            rawVersion="7.4.14"
+            platform="ti.platforms.simTCI6616"
+            isa="66"
+            suffix="e66"
+            rootDir="C:/ti/c6000_7.4.14"
+            os="undefined"
+            rts="ti.targets.rts6000">
+            <model endian="little"
+                codeModel="undefined"
+                dataModel="undefined"/>
+        </target>
+    </targets>
+    <libraries>
+    </libraries>
+    <configurations>
+    <configuration name="ConfigurationForAll"
+        pname="ConfigurationForAll.pe66"
+        target="ti.targets.elf.C66"
+        platform="ti.platforms.evm6678"
+        profile="release"
+        isPartial="false"
+        xCfgScript="package/cfg/ConfigurationForAll_pe66.cfg"
+        xCfgPrefix="package/cfg/ConfigurationForAll_pe66"
+        cfgScript="C:/2017/Final_book_2017/Naim_Dahnoun_Book_Final/Chapter_07_SYSBIOS_TI_RTOS/CLK_SWI_TASK_HWI/ConfigurationForAll.cfg"
+        cfgArgs="null"
+        />
+    </configurations>
+    <executables>
+    <executable name="ConfigurationForAll"
+        pname="ConfigurationForAll.xe66"
+        target="ti.targets.elf.C66"
+        platform="ti.platforms.evm6678"
+        profile="release"
+        xCfgScript="package/cfg/ConfigurationForAll_pe66.cfg"
+        xCfgPrefix="package/cfg/ConfigurationForAll_pe66"
+        cfgScript="C:/2017/Final_book_2017/Naim_Dahnoun_Book_Final/Chapter_07_SYSBIOS_TI_RTOS/CLK_SWI_TASK_HWI/ConfigurationForAll.cfg"
+        cfgArgs="null"
+        />
+    </executables>
+    <tests>
+    <test exeName="ConfigurationForAll.xe66"
+        args=""
+        groupName="ConfigurationForAll.xe66"
+        refOutput="undefined"
+        refExitCode="0"
+        execArgs=""
+        />
+    </tests>
+    <releases relDir="package/rel/">
+    <release name="xconfig_ConfigurationForAll"
+        pname="xconfig_ConfigurationForAll.tar"
+        label="default"
+    >
+        <file name="package/package.bld.xml"/>
+        <file name="package/build.cfg"/>
+        <file name="package/package.xdc.inc"/>
+    </release>
+    </releases>
+    <repositories>
+    </repositories>
+</package>

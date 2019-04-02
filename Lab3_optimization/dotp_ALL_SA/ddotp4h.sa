@@ -1,0 +1,27 @@
+	.global ddotp4h
+
+ddotp4h:	.cproc	ap, xp, cnt
+		.reg	a1h:a1l, x1h:x1l, a2h:a2l, x2h:x2l, dp1h:dp1l,  tempSuml, tempSumh, rsum
+
+		zero 	rsum
+		zero	tempSuml
+		zero	tempSumh
+
+loop:
+		lddw	*ap++, a1h:a1l
+		lddw	*xp++, x1h:x1l
+		lddw	*ap++, a2h:a2l
+		lddw	*xp++, x2h:x2l
+
+		ddotp4h	a1h:a1l:a2h:a2l, x1h:x1l:x2h:x2l, dp1h:dp1l
+
+		add		dp1h, tempSumh, tempSumh
+		add		dp1l, tempSuml, tempSuml
+
+[cnt]	sub		cnt, 8, cnt
+[cnt]	b		loop
+
+		add 	tempSuml, tempSumh, rsum
+
+		.return rsum
+		.endproc
