@@ -40,7 +40,9 @@ int dotp(short *m, short *n, int count)
 
 	int acc,i;
 	acc = 0;
-	// to be completed
+	for(i=0; i < count; i++){
+	    acc += m[i] * n[i];
+	}
 	return acc;
 
 

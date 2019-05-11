@@ -26,10 +26,18 @@ volatile int y = 0;
 Void main()
 {
 	char buf1[30];
+	char buf2[30];
+	char s1[30] = "Hello";
+	char s2[30] = "Print";
 // To be completed
+	System_sprintf(buf1, "First output : %s\n", s1);
+	System_sprintf(buf2, "Second output: %s\n", s2);
 
 
 	y = dotp(a, x, COUNT);
+
+	System_printf(buf1);
+    System_printf(buf2);
 
 	System_printf("y   = %d \n",  y);
 

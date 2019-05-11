@@ -11,4 +11,5 @@
 	<templateProperties value="id=com.ti.common.project.core.emptyProjectWithMainTemplate,"/>
 	<isTargetManual value="false"/>
 	<origin value="C:/Users/hc13414/OneDrive - University of Bristol/Documents/Downloads/dotp_ALL_SA"/>
+	<connection value="common/targetdb/connections/TIXDS100usb_Connection.xml"/>
 </projectOptions>

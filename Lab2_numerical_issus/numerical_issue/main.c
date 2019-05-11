@@ -3,6 +3,19 @@
  */
 #include <c6x.h>
 
+short as=0x4000;        // 16-bit 2's complement
+short bs=0x2000;
+int a = 0x40000000;
+int b = 0x20000000;
+float af = 0.5;
+float bf = 0.25;
+
+long long c = 0;
+int cs =0;
+float d = 0;
+float df=0;
+long long c_ll=0;
+
 //to be completed
 
 
@@ -19,6 +32,8 @@ int main(void) {
 	df = af *bf;
 	a = 0x40000000;
 	b = 0x20000000;
+
+
 
 	// This stores only the least 16  significant bits of the result in a_b
 	// the results in this case will be WRONG
