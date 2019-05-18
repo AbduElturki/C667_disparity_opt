@@ -1,9 +1,11 @@
 int dotpC_intrinsic(short *m, short *n, int count)
 
 {
-
+    _nassert((int) m % 8 == 0);
+        _nassert((int) n % 8 == 0);
 	  int  sum = 0, sum1 = 0, sum2 = 0, sum3 = 0, sum4 = 0;
 	  int i;
+#pragma MUST_ITERATE(62,62, 2)
 for (i=0; i < count;i+=4)
 //		sum += coef[i]* filtbuff1[i];
 

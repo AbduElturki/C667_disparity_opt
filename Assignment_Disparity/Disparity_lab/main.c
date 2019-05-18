@@ -78,7 +78,7 @@ int main()
     tdiff1 = ((TS64_TO_ULL(stop)) - (TS64_TO_ULL(start))) / FQ64_TO_FLOAT(freq);
 
     // TODO: when you start working on linear assembly, uncomment this line below to reset output buffer to zero
-    // memset(Disparity_Map, 0, Height*Width);
+    memset(Disparity_Map, 0, Height*Width);
 
     // linear assembly
     Timestamp_get64(&start);
@@ -90,7 +90,7 @@ int main()
 
 
     System_printf("C code %f seconds, error rate %f%, SA code %f seconds, error rate %f%\n", tdiff1, err1, tdiff2, err2);
-
+    System_printf("%d", sizeof(unsigned char));
     return 0;
 }
 

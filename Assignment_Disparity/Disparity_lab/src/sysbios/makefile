@@ -17,7 +17,7 @@ CCOPTS = -mv6600 --abi=eabi -q -mi10 -mo -pdr -pden -pds=238 -pds=880 -pds1110  
 
 BIOS_INC = -I"/home/abdu/ti/bios_6_73_01_01/packages/"
 ANNEX_INCS = 
-INCS = $(BIOS_INC) $(ANNEX_INCS) -I"/packages/" -I"/home/abdu/ti/bios_6_73_01_01/packages/" -I"/home/abdu/ti/ccsv8/ccs_base/" -I"/home/abdu/ti/uia_2_30_01_02/packages/" -I"/home/abdu/ti/xdctools_3_51_01_18_core/packages/" -I"../" -I"/packages//"  -I/home/abdu/ti/ccsv8/tools/compiler/ti-cgt-c6000_8.2.5/include
+INCS = $(BIOS_INC) $(ANNEX_INCS) -I"/packages/" -I"/home/abdu/ti/bios_6_73_01_01/packages/" -I"/home/abdu/ti/ccsv8/ccs_base/" -I"/home/abdu/ti/uia_2_30_01_02/packages/" -I"/home/abdu/ti/openmp_dsp_c667x_2_06_02_01/packages/" -I"/home/abdu/ti/pdk_c667x_2_0_12/packages/" -I"/home/abdu/ti/ipc_3_50_03_04/packages/" -I"/home/abdu/ti/xdctools_3_51_01_18_core/packages/" -I"../" -I"/packages//"  -I/home/abdu/ti/ccsv8/tools/compiler/ti-cgt-c6000_8.2.5/include
 
 CC = /home/abdu/ti/ccsv8/tools/compiler/ti-cgt-c6000_8.2.5/bin/cl6x -c $(CCOPTS)
 ASM = /home/abdu/ti/ccsv8/tools/compiler/ti-cgt-c6000_8.2.5/bin/cl6x -c $(CCOPTS)

@@ -1,14 +1,23 @@
              .global stereo_vision_sa
              ; TODO: complete stereo vision function in linear assembly
-stereo_vision_sa  .cproc a_1,a_2,a_3,a_4,a_5
-
-
-
-
-
-
-
-
+             ;stereo_vision_sa(L, R, Disparity_Map, 60, 2);
+stereo_vision_sa:  .cproc a_1,a_2,a_3,a_4,a_5
+					;a1 a2 L buffer, b2 R buffer,
+				   .reg a1h:a1l, a2h:a2l, b1h:b1l, b2h:b2l, tempSuml, tempSumh, rsum
+				   ;height
+				   mvk 223, A3
+				   ;width
+				   mvk 280, B3
+				   ;A4 outer loop value
+				   sub A3, 1, A5
+				   sub A5, a_5, A5
+				   ;A5 inner loop
+				   add A5, 0, B5
+loop_outer:
+loop_inner:
+				   ;column
+				   add B3, B5, A6
+				   sub A6, a_5, A6
 
 
 
