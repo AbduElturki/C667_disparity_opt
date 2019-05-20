@@ -1,23 +1,195 @@
              .global stereo_vision_sa
              ; TODO: complete stereo vision function in linear assembly
              ;stereo_vision_sa(L, R, Disparity_Map, 60, 2);
-stereo_vision_sa:  .cproc a_1,a_2,a_3,a_4,a_5
-					;a1 a2 L buffer, b2 R buffer,
-				   .reg a1h:a1l, a2h:a2l, b1h:b1l, b2h:b2l, tempSuml, tempSumh, rsum
-				   ;height
-				   mvk 223, A3
-				   ;width
-				   mvk 280, B3
-				   ;A4 outer loop value
-				   sub A3, 1, A5
-				   sub A5, a_5, A5
-				   ;A5 inner loop
-				   add A5, 0, B5
-loop_outer:
-loop_inner:
-				   ;column
-				   add B3, B5, A6
-				   sub A6, a_5, A6
+stereo_vision_sa:  .cproc L,R,a_3,search,radius
+
+				   ;window storage of 25bytes as 5 double words
+				   .reg L1h:L1l,L2h:L2l,L3h:L3l,L4h:L4l,L5h:L5l
+				   .reg R1h:R1l,R2h:R2l,R3h:R3l,R4h:R4l,R5h:R5l
+
+				   ;partial results
+				   .reg part
+
+				   ;summation with dotp fudge
+				   .reg ones
+				   mvkl 0x01010101,ones
+				   mvkh 0x01010101,ones
+
+				   .reg mask
+				   mvkl 0x000000FF,mask
+				   mvkh 0x000000FF,mask
+
+				   ;summation
+				   .reg sum
+
+				   ;loop counters
+				   .reg i,j,k,s
+
+				   ;conditional checking
+				   .reg check
+
+				   ;offsets
+				   .reg offset,hoffset,woffset
+
+				   ;distance and bestsum
+				   .reg dist,bestsum
+
+				   .reg height,width
+				   ;height (223)
+				   mvk 223, height
+				   ;width (280)
+				   mvk 280,width
+
+				   ;start at max height-radius
+				   sub height,radius,i
+				   sub i,1,i
+loop_height:
+
+				   ;height offset
+				   mpy width,i,hoffset
+				   sub hoffset,width,hoffset
+				   sub hoffset,width,hoffset
+
+				   ;reset the width
+				   sub width,radius,j
+				   sub j,1,j
+loop_width:
+
+				   ;some large value to improve upon
+				   mvk 10000,bestsum
+
+				   ;width offset
+				   sub j,radius,woffset
+
+				   ;grab the 5x5 window from the left image as double words
+				   ;offset = (i-Radius)*Width+j-Radius
+				   add woffset,hoffset,offset
+				   ldndw   *L(offset),L1h:L1l
+
+				   add offset,width,offset
+				   ldndw   *L(offset),L2h:L2l
+
+				   add offset,width,offset
+				   ldndw   *L(offset),L3h:L3l
+
+				   add offset,width,offset
+				   ldndw   *L(offset),L4h:L4l
+
+				   add offset,width,offset
+				   ldndw   *L(offset),L5h:L5l
+
+				   ;mask out the unwanted data
+				   and mask,L1h,L1h
+				   and mask,L2h,L2h
+				   and mask,L3h,L3h
+				   and mask,L4h,L4h
+				   and mask,L5h,L5h
+
+				   ;reset the search
+				   mv search,k
+
+				   ;check to make sure the search doesn't go out of bounds
+				   ;change if j-Radius-Search_Range < 0
+				   sub j,radius,s
+				   cmplt s,k,check
+[check]            add s,1,k
+
+				   zero s
+loop_search:
+
+				   ;grab the 25 byte window as double words
+				   ;offset = (i-Radius)*Width+j-Radius-k
+				   add woffset,hoffset,offset
+				   sub offset,s,offset
+
+				   ldndw   *R(offset),R1h:R1l
+				   and mask,R1h,R1h
+				   add offset,width,offset
+				   ldndw   *R(offset),R2h:R2l
+				   and mask,R2h,R2h
+				   add offset,width,offset
+				   ldndw   *R(offset),R3h:R3l
+				   and mask,R3h,R3h
+				   add offset,width,offset
+				   ldndw   *R(offset),R4h:R4l
+    			   and mask,R4h,R4h
+				   add offset,width,offset
+				   ldndw   *R(offset),R5h:R5l
+				   and mask,R5h,R5h
+
+				   ;sum of absolute differences
+
+				   subabs4 R1h,L1h,part
+				   dotpu4 part,ones,part
+				   add 0,part,sum
+
+				   subabs4 R1l,L1l,part
+				   dotpu4 part,ones,part
+				   add sum,part,sum
+
+				   subabs4 R2h,L2h,part
+				   dotpu4 part,ones,part
+				   add sum,part,sum
+
+				   subabs4 R2l,L2l,part
+				   dotpu4 part,ones,part
+				   add sum,part,sum
+
+				   subabs4 R3h,L3h,part
+				   dotpu4 part,ones,part
+				   add sum,part,sum
+
+				   subabs4 R3l,L3l,part
+				   dotpu4 part,ones,part
+				   add sum,part,sum
+
+				   subabs4 R4h,L4h,part
+				   dotpu4 part,ones,part
+				   add sum,part,sum
+
+				   subabs4 R4l,L4l,part
+				   dotpu4 part,ones,part
+				   add sum,part,sum
+
+				   subabs4 R5h,L5h,part
+				   dotpu4 part,ones,part
+				   add sum,part,sum
+
+				   subabs4 R5l,L5l,part
+				   dotpu4 part,ones,part
+				   add sum,part,sum
+
+				   ;see if the new sum is lower
+				   cmplt sum,bestsum,check
+				   ;store the current best sum and distance
+[check]          mv sum,bestsum
+[check]          mv s,dist
+
+				   add s,1,s
+				   sub k,s,check
+;branch back if the search isn't complete
+[check] b loop_search
+
+				   ;update the disparity map with the best distance
+                   mpy i,width,offset
+                   add offset,j,offset
+                   stb dist,*a_3[offset]
+
+				   ;decrease the col number
+				   sub j,radius,check
+
+;see if all of the cols are done
+[check] sub j,1,j
+[check] b loop_width
+
+
+				   ;decrease the row number
+				   sub i,radius,check
+
+;see if all of the rows are complete
+[check] sub i,1,i
+[check] b loop_height
+
 
 
 
