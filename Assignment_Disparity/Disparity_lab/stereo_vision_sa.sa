@@ -8,7 +8,7 @@ stereo_vision_sa:  .cproc L,R,a_3,search,radius
 				   .reg R1h:R1l,R2h:R2l,R3h:R3l,R4h:R4l,R5h:R5l
 
 				   ;partial results
-				   .reg part
+				   .reg part, partlower, parthigher
 
 				   ;summation with dotp fudge
 				   .reg ones
@@ -20,7 +20,7 @@ stereo_vision_sa:  .cproc L,R,a_3,search,radius
 				   mvkh 0x000000FF,mask
 
 				   ;summation
-				   .reg sum
+				   .reg sum, sumlower,sumhigher
 
 				   ;loop counters
 				   .reg i,j,k,s
@@ -59,7 +59,7 @@ loop_width:
 				   mvk 10000,bestsum
 
 				   ;width offset
-				   sub j,radius,woffset
+||				   sub j,radius,woffset
 
 				   ;grab the 5x5 window from the left image as double words
 				   ;offset = (i-Radius)*Width+j-Radius
@@ -80,13 +80,13 @@ loop_width:
 
 				   ;mask out the unwanted data
 				   and mask,L1h,L1h
-				   and mask,L2h,L2h
-				   and mask,L3h,L3h
-				   and mask,L4h,L4h
-				   and mask,L5h,L5h
+||				   and mask,L2h,L2h
+||				   and mask,L3h,L3h
+||				   and mask,L4h,L4h
+||				   and mask,L5h,L5h
 
 				   ;reset the search
-				   mv search,k
+||				   mv search,k
 
 				   ;check to make sure the search doesn't go out of bounds
 				   ;change if j-Radius-Search_Range < 0
@@ -119,45 +119,52 @@ loop_search:
 
 				   ;sum of absolute differences
 
-				   subabs4 R1h,L1h,part
-				   dotpu4 part,ones,part
-				   add 0,part,sum
+				   subabs4 R1h,L1h,parthigher
+||				   subabs4 R1l,L1l,partlower
 
-				   subabs4 R1l,L1l,part
-				   dotpu4 part,ones,part
-				   add sum,part,sum
+				   dotpu4 parthigher,ones,parthigher
+||				   dotpu4 partlower,ones,partlower
 
-				   subabs4 R2h,L2h,part
-				   dotpu4 part,ones,part
-				   add sum,part,sum
+				   add 0,parthigher,sumhigher
+||				   add 0,partlower,sumlower
 
-				   subabs4 R2l,L2l,part
-				   dotpu4 part,ones,part
-				   add sum,part,sum
+				   subabs4 R2h,L2h,parthigher
+||				   subabs4 R2l,L2l,partlower
 
-				   subabs4 R3h,L3h,part
-				   dotpu4 part,ones,part
-				   add sum,part,sum
+				   dotpu4 parthigher,ones,parthigher
+||				   dotpu4 partlower,ones,partlower
 
-				   subabs4 R3l,L3l,part
-				   dotpu4 part,ones,part
-				   add sum,part,sum
+				   add sumhigher,parthigher,sumhigher
+||				   add sumlower,partlower,sumlower
 
-				   subabs4 R4h,L4h,part
-				   dotpu4 part,ones,part
-				   add sum,part,sum
+				   subabs4 R3h,L3h,parthigher
+||				   subabs4 R3l,L3l,partlower
 
-				   subabs4 R4l,L4l,part
-				   dotpu4 part,ones,part
-				   add sum,part,sum
+				   dotpu4 parthigher,ones,parthigher
+||				   dotpu4 partlower,ones,partlower
 
-				   subabs4 R5h,L5h,part
-				   dotpu4 part,ones,part
-				   add sum,part,sum
+				   add sumhigher,parthigher,sumhigher
+||				   add sumlower,partlower,sumlower
 
-				   subabs4 R5l,L5l,part
-				   dotpu4 part,ones,part
-				   add sum,part,sum
+				   subabs4 R4h,L4h,parthigher
+||				   subabs4 R4l,L4l,partlower
+
+				   dotpu4 parthigher,ones,parthigher
+||				   dotpu4 partlower,ones,partlower
+
+				   add sumhigher,parthigher,sumhigher
+||				   add sumlower,partlower,sumlower
+
+				   subabs4 R5h,L5h,parthigher
+||				   subabs4 R5l,L5l,partlower
+
+				   dotpu4 parthigher,ones,parthigher
+||				   dotpu4 partlower,ones,partlower
+
+				   add sumhigher,parthigher,sumhigher
+||				   add sumlower,partlower,sumlower
+
+				   add sumhigher,sumlower,sum
 
 				   ;see if the new sum is lower
 				   cmplt sum,bestsum,check
